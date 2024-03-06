@@ -1,16 +1,34 @@
-# This is a sample Python script.
+import uvicorn
+from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from app.setting import AUTH_SCHEMA
+from app.database import generate_tables
+from fastapi.responses import RedirectResponse
+from auth.router import route as auth_router
+from auth.services import init_admin_user
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = FastAPI()
 
+origins = [
+    "http://localhost:8000",
+    "http://localhost:8080"
+]
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+app.include_router(
+    auth_router,
+    prefix="/api/v1"
+)
 
-# Press the green button in the gutter to run the script.
+generate_tables()
+init_admin_user()
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    uvicorn.run(app=app)
