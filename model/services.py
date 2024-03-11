@@ -14,10 +14,11 @@ class Summarization:
         self.model = PegasusForConditionalGeneration.from_pretrained(PATH)
         self.tokenizer = PegasusTokenizer.from_pretrained(PATH, use_fast=True)
 
-    def predict(self, text):
+    async def predict(self, text):
         inputs = self.tokenizer(text, max_length=1024, return_tensors="pt")
         summary_ids = self.model.generate(inputs["input_ids"])
         sen = self.tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+        print(sen)
         return sen
 
 

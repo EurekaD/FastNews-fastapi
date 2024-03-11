@@ -5,6 +5,7 @@ from app.setting import AUTH_SCHEMA
 from app.database import generate_tables
 from fastapi.responses import RedirectResponse
 from auth.router import route as auth_router
+from model.router import route as abstract_router
 from auth.services import init_admin_user
 
 app = FastAPI()
@@ -24,6 +25,11 @@ app.add_middleware(
 
 app.include_router(
     auth_router,
+    prefix="/api/v1"
+)
+
+app.include_router(
+    abstract_router,
     prefix="/api/v1"
 )
 
