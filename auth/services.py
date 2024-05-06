@@ -30,11 +30,12 @@ def get_user(db: Session, username: str):
 
 
 def create_user(db: Session, user: UserCreate):
-    salt, hashed_password = get_password_hash(user.hashed_password)
+    salt, hashed_password = get_password_hash(user.password)
     db_user = UserInDB(
         username=user.username,
         hashed_password=hashed_password,
-        salt=salt
+        salt=salt,
+        roles='0'
     )
     db.add(db_user)
     db.commit()
@@ -52,7 +53,7 @@ def authenticate_user(db: Session, username: str, password: str):
     return user
 
 
-# 获取当前用户信息， 用户名
+# 获取当前用户信息，用户名
 async def get_current_user(
         token: str = Depends(AUTH_SCHEMA),
         db: Session = Depends(get_db)

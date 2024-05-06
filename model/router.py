@@ -16,7 +16,8 @@ async def predict(
         model: Summarization = Depends(get_model)
 ):
     print(form.text)
-    abstract_text = await model.predict(form.text)
+    abstract_text = await model.predict_paragraphing(form.text)
+
     api_response = ApiResponseData(code=0, data=Text(abstract_text=abstract_text), message="Success")
     print(api_response)
     return api_response

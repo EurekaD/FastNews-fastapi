@@ -32,13 +32,12 @@ class ApiResponseData(BaseModel):
     message: str
 
 
-class UserBase(BaseModel):
-    id: Optional[int]
+class UserCreate(BaseModel):
     username: str
-
-
-class UserCreate(UserBase):
     password: str
+    password2: str
+
+
 
 
 

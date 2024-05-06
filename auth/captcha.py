@@ -15,23 +15,31 @@ class Captcha:
 
     def append(self, uuid, text):
         self.CAPTCHA_length += 1
-        self.CAPTCHA.append({uuid: text})
+        # self.CAPTCHA.append({uuid: text})
+        self.CAPTCHA.append({uuid: text.lower()})
         print({uuid: text})
         if self.CAPTCHA_length >= 100:
             self.CAPTCHA.pop(0)
             self.CAPTCHA_length -= 1
 
+    # def verify(self, uuid_, text_):
+    #     for captcha in self.CAPTCHA:
+    #         if uuid_ in captcha:
+    #             print(captcha[uuid_])
+    #             if text_.lower() == captcha[uuid_].lower():
+    #                 return True
+    #     else:
+    #         return False
+
     def verify(self, uuid_, text_):
-        for captcha in self.CAPTCHA:
-            if uuid_ in captcha:
-                print(captcha[uuid_])
-                if text_.lower() == captcha[uuid_].lower():
-                    return True
+        user_captcha = {uuid_: text_.lower()}
+        if user_captcha in self.CAPTCHA:
+            return True
         else:
             return False
 
 
 if __name__ == "__main__":
     cap = Captcha()
-    cap.append("111111", "adfddsf")
-    print(cap.verify("11111", "adfddsf"))
+    cap.append("111111", "ad11Fdsf")
+    print(cap.verify("111111", "Ad11fddsf"))

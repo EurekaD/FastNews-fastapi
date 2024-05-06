@@ -1,6 +1,6 @@
+import re
 from utils.decorators import singleton
 from transformers import PegasusForConditionalGeneration
-
 from model.pegasus.tokenizers_pegasus import PegasusTokenizer
 
 
@@ -21,7 +21,23 @@ class Summarization:
         print(sen)
         return sen
 
+    # predict after paragraphing the news text
+    async def predict_paragraphing(self, text):
+        text_list = re.split("\n", text)
+        result = []
+        for paragraph in text_list:
+            sen = await self.predict(paragraph)
+            result.append(sen)
+        return "\n".join(result)
+
 
 def get_model() -> Summarization:
     return Summarization()
+
+# if __name__ == "__main__":
+#     # model_0 = get_model()
+#     # model_1 = get_model()
+#     # print(id(model_0))
+#     # print(id(model_1))
+
 

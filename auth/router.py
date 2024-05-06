@@ -43,15 +43,19 @@ async def login(
         )
 
 
-@route.post("/createuser", dependencies=[Depends(AUTH_SCHEMA)])
+# @route.post("/createuser", dependencies=[Depends(AUTH_SCHEMA)])
+@route.post("/createuser")
 async def createuser(user: UserCreate, db: Session = Depends(get_db)):
     dbuser = get_user(db, user.username)
+    print(dbuser)
     if dbuser:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="用户名已存在",
         )
-    return create_user(db, user)
+    if create_user(db, user) is not None:
+        api_response = ApiResponseData(code=0, data=None, message="Success Create User")
+        return api_response
 
 
 # 验证码流程如下：

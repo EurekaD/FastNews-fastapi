@@ -1,16 +1,20 @@
 from fastapi.security import OAuth2PasswordBearer
 from urllib import parse
+from dotenv import load_dotenv
+import os
+load_dotenv('fastnews.env')
 
 AUTH_SCHEMA = OAuth2PasswordBearer(tokenUrl="/api/v1/login")
 
-JWT_SECRET_KEY = '060ccccf7c2e4d0f7de9128670ed3d7ba8df0251ec0dca51f3fc76fc9e218ef7'
-JWT_ALGORIthM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440
-AUTH_INIT_USER = 'root'
-AUTH_INIT_PASSWORD = 'chenlin'
+
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+JWT_ALGORIthM = os.getenv('JWT_ALGORIthM')
+AUTH_INIT_USER = os.getenv('AUTH_INIT_USER')
+AUTH_INIT_PASSWORD = os.getenv('AUTH_INIT_PASSWORD')
 
 
-DB_HOST = 'localhost'
-DB_USERNAME = 'root'
-DB_PASSWORD = parse.quote('chenlin')
-DB_DATABASE = 'fastnews'
+DB_HOST = os.getenv('DB_HOST')
+DB_USERNAME = os.getenv('DB_USERNAME')
+DB_PASSWORD = parse.quote(os.getenv('DB_PASSWORD'))
+DB_DATABASE = os.getenv('DB_DATABASE')

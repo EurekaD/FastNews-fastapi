@@ -6,6 +6,7 @@ from app.database import generate_tables
 from fastapi.responses import RedirectResponse
 from auth.router import route as auth_router
 from model.router import route as abstract_router
+from word_cloud.router import route as word_cloud_router
 from auth.services import init_admin_user
 
 app = FastAPI()
@@ -30,6 +31,11 @@ app.include_router(
 
 app.include_router(
     abstract_router,
+    prefix="/api/v1"
+)
+
+app.include_router(
+    word_cloud_router,
     prefix="/api/v1"
 )
 
