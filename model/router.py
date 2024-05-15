@@ -22,6 +22,7 @@ async def predict(
     print(api_response)
     return api_response
 
+
 @route.post("/abstract_para", response_model=ApiResponseData)
 async def predict(
         form: AbstractRequestData,
